@@ -1,4 +1,4 @@
-# EC530---Trying-APIs
+# EC530---APIs, Databases & Containers
 Trying out sample APIs to use in a Remote Health Monitoring System
 
 **API for reading data from the sensors
