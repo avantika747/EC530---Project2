@@ -1,12 +1,13 @@
-# basic skeleton code for the device_interface part, basic CRUD operations
-
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
 # sample authentication to implement any authentication logic
 def authenticate(token):
-  pass
+  if token == 'actual_token':
+    return True
+  else:
+    return False
 
 # device data
 devices = []
@@ -15,12 +16,17 @@ devices = []
 @app.route('/devices', methods=['GET'])
 def get_devices():
   # authenticate the user
+  token = request.headers.get('Authorization')
+  if not authenticate(token):
+    return jsonify({'error': 'Unauthorized access'}), 401
   # retrieving and returning the list of devices
   return jsonify(devices), 200
 
 @app.route('/devices', methods=['POST'])
 def register_device():
   # authenticate the user
+  
+
   # parse request and register device
   # validate the request
   # add device to devices list
