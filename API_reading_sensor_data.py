@@ -1,12 +1,13 @@
-# basic skeleton code for reading in data from sensors on the patient being monitored
-
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
 # sample authentication
 def authenticate(token):
-  pass
+  if token == 'provided_token': # sample token
+        return True
+    else:
+        return False
 
 @app.route('/sensor-data', methods=['POST']) # using POST method
 def sensor_data():
@@ -28,9 +29,6 @@ def sensor_data():
     sensor_id = data['sensor_id']
     timestamp = data['timestamp']
     sensor_data = data['data']
-
-    # user can do anything with the sensor data here (e.g., saving it to a database)
-    # it can also be integrated with other backend functions here at this point
 
     # final success message
     return jsonify({'message': 'Data Received!'}), 200
