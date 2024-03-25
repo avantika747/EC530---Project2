@@ -4,11 +4,16 @@ from flask import Flask, request, jsonify
 from queue import Queue
 from threading import Thread
 
+
 app = Flask(__name__)
 
 # initializing queue
 notification_queue = Queue()
 
+def send_notification(notification): 
+    print(f"Sending {notification['type']} notification to {notification['recipient']}: {notification['message']}")
+    return True
+    
 # worker function to process notifications (this notification_worker segment's idea borrowed from ChatGPT)
 def notification_worker():
     while True:
@@ -38,8 +43,8 @@ def enqueue_notification():
 
     return jsonify({'message': 'Notification queued successfully'}), 200
 
-def send_notification(notification): 
-    print(f"Sending {notification['type']} notification to {notification['recipient']}: {notification['message']}")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
