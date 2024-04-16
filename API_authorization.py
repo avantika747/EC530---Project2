@@ -2,6 +2,7 @@
 # of the remote health monitoring system
 
 from flask import Flask, request, jsonify
+import re
 
 # sample data stored as dict here (can be modelled into a database) 
 users = {"user1" : {
@@ -13,12 +14,27 @@ users = {"user1" : {
 # authentication API endpoint - POST method
 @app.route('/auth/login', methods=['POST'])
 
+# input sanitization 
+# making sure that the username and password entered is only alphanumeric with underscores
+def validate_username(username):
+         return re.match(r"^[a-zA-Z0-9_]{3,20}$", username) is not None
+
+# making sure that the length of the password is greater than 6 characters
+def validate_password(password):
+         return len(password) >= 6
+
 # login function
 def login():
   data = request.json
   username = data.get('username')
   password = data.get('password')
 
+  if not validate_username(username):
+           return jsonify({'error': 'Invalid username'}), 400
+
+  if not validate_password(password):
+           return jsonify({'error': 'Invalid password'}), 400
+         
   if username in users and users[username]['password'] == password:
         # authentication successful, generate and return access token
         access_token = generate_access_token(username)
